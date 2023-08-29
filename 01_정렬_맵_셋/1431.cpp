@@ -10,39 +10,44 @@ struct serialCode
     string code;
 };
 
+// 자리수의 합 구하기
+int addNum(serialCode a)
+{
+    int sum = 0;
+    for (char c : a.code)
+    {
+        if (isdigit(c))
+        {
+            sum += c - '0';
+        }
+    }
+
+    return sum;
+}
+
 // 비교
-bool compareSort(const serialCode& a, const serialCode& b)
+bool compareSort(const serialCode &a, const serialCode &b)
 {
     // 길이순 정렬
     if (a.code.length() != b.code.length())
+    {
         return a.code.length() < b.code.length();
+    }
 
     // 자리수의 합 구하기
     int sumA = 0, sumB = 0;
-    for (char c : a.code)
-    {
-        if (isdigit(c)) {
-            sumA += c - '0';
-            // 시간을 많이 소요한 부분: 
-            // sumA += c - '0';
-            // 이유: c의 자료형이 char이기 때문에, 숫자 '0'은 48을 나타내고, 1은 49 ...를 나타냄
-        }  
-    }
-    for (char c : b.code)
-    {
-        if (isdigit(c)) {
-            sumB += c - '0';
-        }  
-    }
+    sumA = addNum(a);
+    sumB = addNum(b);
 
     // 자리수의 합을 통해 정렬
     if (sumA != sumB)
+    {
         return sumA < sumB;
+    }
 
     // 사전순으로 정렬
     return a.code < b.code;
 }
-
 
 int main()
 {
@@ -66,10 +71,8 @@ int main()
     // 길이&자리수의 합으로 정렬
     sort(codeArr.begin(), codeArr.end(), compareSort);
 
-
-
     // 정렬된 시리얼 번호 출력
-    for (const serialCode& code : codeArr)
+    for (const serialCode &code : codeArr)
     {
         cout << code.code << "\n";
     }
